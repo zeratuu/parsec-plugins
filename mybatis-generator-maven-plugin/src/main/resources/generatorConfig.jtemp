@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+      ~ Copyright (c) 2017. 秒差距科技
+
+-->
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+
+<generatorConfiguration>
+
+
+    <!--注意当前classPathEntry以及对应生成的输出文件是相对与maven plugin的位置pom.xml）-->
+    <!--<classPathEntry location="./genMybatis/mysql-connector-java-5.1.26.jar"/>-->
+
+    <context id="DefualtJava5" targetRuntime="MyBatis3">
+
+        <property name="suppressTypeWarnings" value="true"/>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin"/>
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Critera"/>
+        </plugin>
+
+        <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+            <property name="targetPackage" value="config"/>
+            <property name="targetProject" value="resource"/>
+        </plugin>
+
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <!--<property name="addRemarkComments" value="true"/>-->
+            <!--<property name="dateFormat" value="yyyy-MM-dd"/>-->
+        </commentGenerator>
+
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://parsec0326.mysql.rds.aliyuncs.com/gemini_specific"
+                        userId="parsec326"
+                        password="databasepwd"/>
+
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+
+
+        <javaModelGenerator targetPackage="${groupId}.${artifactId}.entity"
+                            targetProject="src/main/java/">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+            <property name="rootClass" value="com.parsec.universal.dao.BaseModel"></property>
+        </javaModelGenerator>
+
+        <javaControllerGenerator targetPackage="${groupId}.${artifactId}.controller"
+                                 targetProject="src/main/java">
+
+        </javaControllerGenerator>
+
+        <sqlMapGenerator targetPackage="com.parsec.plugin_test.dao"
+                         targetProject="src/main/resources/">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="mapper" targetPackage="${groupId}.${artifactId}.dao"
+                             targetProject="src/main/java/">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <table tableName="tbl_project_study"
+               domainObjectName="Study"
+               mapperName="StudyDao"
+               sqlProviderName="StudyDao">
+
+            <!-- 指定是否只生成domain类，如果设置为true，只生成domain类，如果还配置了sqlMapGenerator，那么在mapper XML文件中，只生成resultMap元素 -->
+            <property name="modelOnly" value="false"/>
+
+            <!-- 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate -->
+            <property name="useActualColumnNames" value="true" />
+        </table>
+
+    </context>
+</generatorConfiguration>
+

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+      ~ Copyright (c) 2017. 秒差距科技
+
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+
+    <!--输出文件位置,tomcat容器的根目录-->
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--
+                颜色可选
+                "%black", "%red", "%green","%yellow","%blue", "%magenta","%cyan", "%white", "%gray",
+                "%boldRed","%boldGreen", "%boldYellow", "%boldBlue", "%boldMagenta","%boldCyan", "%boldWhite" and "%highlight" 。
+                例:%red(信息),则 信息 这两个字为红色
+                其它 %p 表示level,%t表示线程名
+            -->
+            <pattern>
+                %green(%d{yy-MM-dd HH:mm:ss.SSS}) %highlight(%5p) %magenta([%15.15t]) %cyan(%-40.40logger{39}) %M %boldMagenta(%3.3L) %blue(:) %m%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--StacktraceLog(输出到文件，这里输出所有日志)-->
+    <appender name="allRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${parsec.log.dir:-logs}/stacktrace.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${parsec.log.dir:-logs}/stacktrace-%d{yy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+            <!-- keep 7 days' worth of history -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+<!--        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>-->
+        <encoder>
+            <Pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} %M - %msg %n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+
+    <!--app.log中只输出info级别日志,注意是只-->
+    <appender name="appRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${parsec.log.dir:-logs}/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+            <!-- daily rollover -->
+            <FileNamePattern>${parsec.log.dir:-logs}/app-%d{yy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+            <!-- keep 7 days' worth of history -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+<!--        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>-->
+        <encoder>
+            <Pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} %M - %msg %n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--error.log中输出warn和error级别的日志-->
+    <appender name="errorRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${parsec.log.dir:-logs}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${parsec.log.dir:-logs}/error-%d{yy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+            <!-- keep 7 days' worth of history -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+<!--        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>-->
+        <encoder>
+            <Pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} %M - %msg %n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+ <!--sql.log中输出sql的所有所有日志-->
+    <appender name="sqlRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${parsec.log.dir:-logs}/sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>${parsec.log.dir:-logs}/sql-%d{yy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+            <!-- keep 7 days' worth of history -->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+<!--        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>-->
+        <encoder>
+            <Pattern>%d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} %M - %msg %n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <!--<appender-ref ref="allRollingFileAppender"/>-->
+        <!--<appender-ref ref="appRollingFileAppender"/>-->
+        <!--<appender-ref ref="errorRollingFileAppender"/>-->
+    </root>
+    <logger name="${groupId}" level="debug">
+        <!--<appender-ref ref="stdout"/>-->
+        <appender-ref ref="allRollingFileAppender"/>
+        <appender-ref ref="appRollingFileAppender"/>
+        <appender-ref ref="errorRollingFileAppender"/>
+    </logger>
+
+    <logger name="${groupId}.${artifactId}.dao" level="debug">
+        <appender-ref ref="sqlRollingFileAppender"/>
+    </logger>
+
+</configuration>
