@@ -38,8 +38,8 @@
 
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://parsec0326.mysql.rds.aliyuncs.com/gemini_specific"
-                        userId="parsec326"
+                        connectionURL="jdbc:mysql://databaseurl"
+                        userId="root"
                         password="databasepwd"/>
 
 
